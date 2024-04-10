@@ -19,10 +19,11 @@ public class Board {
         Pad background = new Pad(750, 900);
         background.setBackground(0, 155, 155);
         letterBoxes = new ArrayList<Rectangle>();
-        for (int row = 0; row < 4; row++) {
+        for (int row = 0; row < 4;  row++) {
             for (int col = 0; col < 4; col++) {
                 Rectangle r = new Rectangle(col*175+25, row*175+25, 175, 175);
                 r.setFilled(false);
+                r.setFontSize(30);
                 letterBoxes.add(r);
             }
             
@@ -49,9 +50,10 @@ public class Board {
           }
         
         // Randomizing and displaying on board
+        System.out.println(dice.size());
         for (String[] die : dice) {
             int index = dice.indexOf(die);
-            int num = (int)(Math.random()*7); // 6 possible letters
+            int num = (int)(Math.random()*6); // 6 possible letters
             chosenDice.add(die[num]);
             letterBoxes.get(index).setText(die[num]);
         }
@@ -62,5 +64,6 @@ public class Board {
      */ 
     public static void main(String[] args) {
         Board b1 = new Board();
+        b1.randomize();
     }
 }
