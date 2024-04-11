@@ -10,7 +10,7 @@ import java.util.Scanner;
  * This class will create the boggle board using doodlepad graphics
  */
 public class Board {
-    ArrayList<Rectangle> letterBoxes;
+    ArrayList<RoundRect> letterBoxes;
     ArrayList<String> chosenDice = new ArrayList<String>();
     /*
      * Board constructor initializes all shape objects for the graphics
@@ -18,11 +18,11 @@ public class Board {
     public Board() {
         Pad background = new Pad(750, 900);
         background.setBackground(0, 155, 155);
-        letterBoxes = new ArrayList<Rectangle>();
+        letterBoxes = new ArrayList<RoundRect>();
         for (int row = 0; row < 4;  row++) {
             for (int col = 0; col < 4; col++) {
-                Rectangle r = new Rectangle(col*175+25, row*175+25, 175, 175);
-                r.setFilled(false);
+                RoundRect r = new RoundRect(col*175+25, row*175+25, 175, 175, 30, 30);
+                r.setFillColor(155, 255, 255);
                 r.setFontSize(30);
                 letterBoxes.add(r);
             }
