@@ -10,20 +10,28 @@ import java.util.Scanner;
  * This class will create the boggle board using doodlepad graphics
  */
 public class Board {
+    int size = 4;
     ArrayList<RoundRect> letterBoxes;
     ArrayList<String> chosenDice = new ArrayList<String>();
+    ArrayList<Oval> selected = new ArrayList<Oval>();
+    ArrayList<Line> connections = new ArrayList<Line>();
+    String currStr = "";
+    double tileSize;
+    ArrayList<String> enteredWords = new ArrayList<String>();
     /*
      * Board constructor initializes all shape objects for the graphics
      */
     public Board() {
         Pad background = new Pad(750, 900);
-        background.setBackground(0, 155, 155);
+        background.setBackground(0, 155, 200);
         letterBoxes = new ArrayList<RoundRect>();
-        for (int row = 0; row < 4;  row++) {
-            for (int col = 0; col < 4; col++) {
-                RoundRect r = new RoundRect(col*175+25, row*175+25, 175, 175, 30, 30);
+        tileSize = 700/size;
+        for (int row = 0; row < size;  row++) {
+            for (int col = 0; col < size; col++) {
+                RoundRect r = new RoundRect(col*tileSize+25, row*tileSize+25, tileSize, tileSize, 30, 30);
                 r.setFillColor(155, 255, 255);
                 r.setFontSize(30);
+                r.setMouseClickedHandler(this::onClicked);
                 letterBoxes.add(r);
             }
             
@@ -59,6 +67,73 @@ public class Board {
         }
     }
 
+    /*
+     * onClickeed method used to highlight the square that is clicked to make a word
+     * also makes sure the square is bordering the previous square
+     */
+    public void onClicked(Shape shp, double x, double y, int button) {
+        if (button == 1) {
+            Oval highlight;
+            if (selected.size() > 0) {
+                Point lastPt = selected.get(selected.size()-1).getCenter();
+                Point currPt = shp.getCenter();
+                if (distance(lastPt, currPt) <= tileSize*2-10) {
+                    highlight = new Oval(0, 0, 60, 60);
+                    highlight.setCenter(shp.getCenter());
+                    highlight.setFillColor(0, 255, 0, 80);
+                    highlight.setMouseClickedHandler(this::onClicked);
+                    
+                    Line connection = new Line(lastPt.getX(), lastPt.getY(), currPt.getX(), currPt.getY());
+                    connection.setStrokeWidth(40);
+                    connection.setStrokeColor(0, 255, 0, 80);
+                    connection.setMouseClickedHandler(this::onClicked);
+                    selected.add(highlight);
+                    connections.add(connection);
+                    currStr += shp.getText();
+                } 
+            }
+            else {
+                highlight = new Oval(0, 0, 60, 60);
+                highlight.setCenter(shp.getCenter());
+                highlight.setFillColor(0, 255, 0, 80);
+                selected.add(highlight);
+                currStr += shp.getText();
+            }
+            
+        }
+        else {
+            enterWord();
+        }
+        
+    }
+
+    /*
+     * distance finds the distance between two pts
+     */
+    public double distance(Point p1, Point p2) {
+        double distance = Math.sqrt(Math.pow(p2.getX()-p1.getX(), 2)+Math.pow(p2.getY()-p1.getY(), 2));
+        return distance;
+    }
+
+    /*
+     * Uses the checker class to check the entered word
+     * clears the highlighting
+     */
+    public void enterWord() {
+        Checker check = new Checker();
+        if (check.checkWord(currStr)) {
+            enteredWords.add(currStr);
+        }
+        currStr = "";
+        for (Oval o : selected) {
+            o.setVisible(false);
+        }
+        for (Line l : connections) {
+            l.setVisible(false);
+        }
+        selected = new ArrayList<Oval>();
+        connections = new ArrayList<Line>();
+    }
     /*
      * Main method used for testing Board graphics
      */ 
