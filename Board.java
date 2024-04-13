@@ -10,7 +10,7 @@ import java.util.Scanner;
  * This class will create the boggle board using doodlepad graphics
  */
 public class Board {
-    int size = 4;
+    int size = 5;
     ArrayList<RoundRect> letterBoxes;
     ArrayList<String> chosenDice = new ArrayList<String>();
     ArrayList<Oval> selected = new ArrayList<Oval>();
@@ -36,6 +36,11 @@ public class Board {
             }
             
         }
+        RoundRect end = new RoundRect(340, 850, 70, 40, 30, 30);
+        end.setFillColor(170, 0, 0);
+        end.setText("END");
+        end.setFontSize(20);
+        end.setMouseClickedHandler(this::onEnd);
     }
 
     /*
@@ -46,11 +51,11 @@ public class Board {
     public void randomize() {
         ArrayList<String[]> dice = new ArrayList<String[]>();
         try {
-            File myObj = new File("diceCombos.txt");
+            File myObj = new File("bigDiceCombos.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
               String rawData = myReader.nextLine();
-              dice.add(rawData.split("-"));
+              dice.add(rawData.split(""));
             }
             myReader.close();
           } catch (FileNotFoundException e) {
@@ -59,11 +64,25 @@ public class Board {
         
         // Randomizing and displaying on board
         System.out.println(dice.size());
+        String currLetter;
         for (String[] die : dice) {
-            int index = dice.indexOf(die);
             int num = (int)(Math.random()*6); // 6 possible letters
-            chosenDice.add(die[num]);
-            letterBoxes.get(index).setText(die[num]);
+            if (die[num].equals("q")) {
+                currLetter = "qu";
+            } 
+            else {
+                currLetter = die[num];
+            }
+            boolean available = false;
+            int index = 0;
+            while (!available) {
+                index = (int)(Math.random()*(size*size)); // Randomizes which square the die goes in
+                if (letterBoxes.get(index).getText() == null) {
+                    available = true;
+                }
+            }
+            chosenDice.add(currLetter);
+            letterBoxes.get(index).setText(currLetter);
         }
     }
 
@@ -99,14 +118,22 @@ public class Board {
                 selected.add(highlight);
                 currStr += shp.getText();
             }
+            System.out.println(currStr);
             
         }
-        else {
+        else if (button == 2) {
             enterWord();
         }
         
     }
 
+    /*
+     * goes to end screen
+     */
+    public void onEnd(Shape shp, double x, double y, int click) {
+        System.out.println(enteredWords);
+        EndScreen e = new EndScreen(enteredWords);
+    }
     /*
      * distance finds the distance between two pts
      */
@@ -133,6 +160,9 @@ public class Board {
         }
         selected = new ArrayList<Oval>();
         connections = new ArrayList<Line>();
+        for (String word : enteredWords) {
+            System.out.println(word);
+        }
     }
     /*
      * Main method used for testing Board graphics
