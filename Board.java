@@ -36,11 +36,14 @@ public class Board {
             }
             
         }
-        RoundRect end = new RoundRect(340, 850, 70, 40, 30, 30);
+        RoundRect end = new RoundRect(340, 850, 70, 40, 15, 15);
         end.setFillColor(170, 0, 0);
         end.setText("END");
         end.setFontSize(20);
         end.setMouseClickedHandler(this::onEnd);
+        RoundRect textBox = new RoundRect(0, 0, 420, 85, 20, 20);
+        textBox.setCenter(375, 787.5);
+        textBox.setFillColor(170, 270, 270);
     }
 
     /*
@@ -121,7 +124,7 @@ public class Board {
             System.out.println(currStr);
             
         }
-        else if (button == 2) {
+        else {
             enterWord();
         }
         

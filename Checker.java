@@ -26,7 +26,7 @@ public class Checker {
      * Checks the passed in word to make sure it is in the dictionary
      */
     public boolean checkWord(String str) {
-        if (dictionary.contains(str)) {
+        if (dictionary.contains(str) && str.length() >= 3) {
             return true;
         }
         return false;
