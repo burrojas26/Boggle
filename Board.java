@@ -91,7 +91,7 @@ public class Board {
      * also makes sure the square is bordering the previous square
      */
     public void onClicked(Shape shp, double x, double y, int button) {
-        if (button == 1) {
+        if (button == 1 && shp.getText() != null) {
             Oval highlight;
             if (selected.size() > 0) {
                 Point lastPt = selected.get(selected.size()-1).getCenter();
