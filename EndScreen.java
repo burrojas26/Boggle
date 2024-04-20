@@ -9,10 +9,23 @@ public class EndScreen {
         wordList.setCenter(375, 450);
         wordList.setFontSize(30);
         wordList.setFillColor(155, 255, 255);
-        String finalStr = "";
+        ArrayList<Text> wordsT = new ArrayList<Text>();
         for (String word : words) {
-            finalStr+=word + "\n";
+            if (wordsT.size() < 1) {
+                Text currWord = new Text(word, 0, 0);
+                currWord.setFontSize(20);
+                currWord.setCenter(375, 0);
+                currWord.setY(40);
+                wordsT.add(currWord);
+                
+            }
+            else {
+                Text currWord = new Text(word, 0, 0);
+                currWord.setFontSize(20);
+                currWord.setCenter(375, 0);
+                currWord.setY(wordsT.get(wordsT.size()-1).getY() + 30);
+                wordsT.add(currWord);
+            }  
         }
-        wordList.setText(finalStr);
     }
 }
