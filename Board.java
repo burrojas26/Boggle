@@ -18,7 +18,11 @@ public class Board {
     String currStr = "";
     double tileSize;
     ArrayList<String> enteredWords = new ArrayList<String>();
+    RoundRect timerBox;
+    RoundRect scoreBox;
     RoundRect textBox;
+    int wordsFound;
+    int score;
     /*
      * Board constructor initializes all shape objects for the graphics
      */
@@ -45,6 +49,16 @@ public class Board {
         textBox = new RoundRect(0, 0, 420, 85, 20, 20);
         textBox.setCenter(375, 787.5);
         textBox.setFillColor(170, 270, 270);
+        textBox.setFontSize(25);
+        timerBox = new RoundRect(620, 850, 70, 40, 10, 10);
+        timerBox.setFillColor(170, 270, 270);
+        timerBox.setFontSize(20);
+        scoreBox = new RoundRect(80, 850, 70, 40, 10, 10);
+        scoreBox.setFillColor(170, 270, 270);
+        scoreBox.setFontSize(20);
+        wordsFound = 0;
+        score = 0;
+        scoreBox.setText(Integer.toString(score));
     }
 
     /*
@@ -88,11 +102,6 @@ public class Board {
             chosenDice.add(currLetter);
             letterBoxes.get(index).setText(currLetter);
         }
-        Timer timer = new Timer();
-        timer.startTimer();
-        while (!timer.getTimeLeft().equals("0:0:0")) {
-            textBox.setText(timer.getTimeLeft());
-        }
     }
 
     /*
@@ -109,12 +118,12 @@ public class Board {
                     highlight = new Oval(0, 0, 60, 60);
                     highlight.setCenter(shp.getCenter());
                     highlight.setFillColor(0, 255, 0, 80);
-                    highlight.setMouseClickedHandler(this::onClicked);
+                    highlight.setMouseClickedHandler(this::enterClick);
                     
                     Line connection = new Line(lastPt.getX(), lastPt.getY(), currPt.getX(), currPt.getY());
                     connection.setStrokeWidth(40);
                     connection.setStrokeColor(0, 255, 0, 80);
-                    connection.setMouseClickedHandler(this::onClicked);
+                    connection.setMouseClickedHandler(this::enterClick);
                     selected.add(highlight);
                     connections.add(connection);
                     currStr += shp.getText();
@@ -127,7 +136,7 @@ public class Board {
                 selected.add(highlight);
                 currStr += shp.getText();
             }
-            System.out.println(currStr);
+            textBox.setText(currStr);
             
         }
         else {
@@ -135,13 +144,20 @@ public class Board {
         }
         
     }
-
+    /*
+     * the method enters the current word when a highlighted portion is clicked
+     */
+    public void enterClick(Shape shp, double x, double y, int button) {
+        if (button != 1) {
+            enterWord();
+        }
+    }
     /*
      * goes to end screen
      */
     public void onEnd(Shape shp, double x, double y, int click) {
         System.out.println(enteredWords);
-        EndScreen e = new EndScreen(enteredWords);
+        EndScreen e = new EndScreen(enteredWords, score);
     }
     /*
      * distance finds the distance between two pts
@@ -156,9 +172,28 @@ public class Board {
      * clears the highlighting
      */
     public void enterWord() {
+        textBox.setText("");
         Checker check = new Checker();
-        if (check.checkWord(currStr)) {
+        if (check.checkWord(currStr, enteredWords)) {
             enteredWords.add(currStr);
+            wordsFound++;
+            int wordLen = currStr.length();
+            if (wordLen >= 8) {
+                score+=11;
+            }
+            else if (wordLen >= 7) {
+                score+=5;
+            }
+            else if (wordLen >= 6) {
+                score+=3;
+            }
+            else if (wordLen >= 5) {
+                score+=2;
+            }
+            else {
+                score++;
+            }
+            scoreBox.setText(Integer.toString(score));
         }
         currStr = "";
         for (Oval o : selected) {
@@ -169,9 +204,24 @@ public class Board {
         }
         selected = new ArrayList<Oval>();
         connections = new ArrayList<Line>();
-        for (String word : enteredWords) {
-            System.out.println(word);
-        }
+    }
+    /*
+     * Uses the passed in String to adjust the timer box
+     */
+    public void setTimerBox(String str) {
+        timerBox.setText(str);
+    }
+    /*
+     * returns the entered words
+     */
+    public ArrayList<String> getWords() {
+        return enteredWords;
+    }
+    /*
+     * returns the current score
+     */
+    public int getScore() {
+        return score;
     }
     /*
      * Main method used for testing Board graphics

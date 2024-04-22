@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Checker {
     ArrayList<String> dictionary = new ArrayList<String>();
+    int minWordLen = 4;
     /*
      * Constructor gets the dictionary from the file
      * File io from W3 schools
@@ -25,8 +26,8 @@ public class Checker {
     /*
      * Checks the passed in word to make sure it is in the dictionary
      */
-    public boolean checkWord(String str) {
-        if (dictionary.contains(str) && str.length() >= 3) {
+    public boolean checkWord(String str, ArrayList<String> words) {
+        if (dictionary.contains(str) && str.length() >= minWordLen && !words.contains(str)) {
             return true;
         }
         return false;

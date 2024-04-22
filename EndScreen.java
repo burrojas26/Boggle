@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import doodlepad.*;
 
 public class EndScreen {
-    public EndScreen(ArrayList<String> words) {
+    public EndScreen(ArrayList<String> words, int theScore) {
         Pad background = new Pad(750, 900);
         background.setBackground(0, 155, 200);
         RoundRect wordList = new RoundRect(0, 0, 500, 850, 30, 30);
@@ -27,5 +27,10 @@ public class EndScreen {
                 wordsT.add(currWord);
             }  
         }
+        RoundRect score = new RoundRect(0, 0, 70, 40, 10, 10);
+        score.setFontSize(25);
+        score.setFillColor(0, 255, 0, 70);
+        score.setCenter(375, 845);
+        score.setText(Integer.toString(theScore));
     }
 }

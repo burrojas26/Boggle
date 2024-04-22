@@ -11,7 +11,7 @@ public class Timer {
     int startTime;
     int endTime;
     String timeLeft;
-    int timerLen = 120; //seconds
+    int timerLen = 180; //seconds
     
     public void getCurrTime() {
         time = LocalTime.now();
@@ -44,7 +44,7 @@ public class Timer {
         getCurrTime();
         int currTime = toSeconds(formattedTime);
         int timeLeft = endTime - currTime;
-        return reformat(timeLeft);
+        return reformat(timeLeft).substring(2);
     }
 
     public static void main(String[] args) {
