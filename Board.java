@@ -18,6 +18,7 @@ public class Board {
     String currStr = "";
     double tileSize;
     ArrayList<String> enteredWords = new ArrayList<String>();
+    RoundRect textBox;
     /*
      * Board constructor initializes all shape objects for the graphics
      */
@@ -41,7 +42,7 @@ public class Board {
         end.setText("END");
         end.setFontSize(20);
         end.setMouseClickedHandler(this::onEnd);
-        RoundRect textBox = new RoundRect(0, 0, 420, 85, 20, 20);
+        textBox = new RoundRect(0, 0, 420, 85, 20, 20);
         textBox.setCenter(375, 787.5);
         textBox.setFillColor(170, 270, 270);
     }
@@ -86,6 +87,11 @@ public class Board {
             }
             chosenDice.add(currLetter);
             letterBoxes.get(index).setText(currLetter);
+        }
+        Timer timer = new Timer();
+        timer.startTimer();
+        while (!timer.getTimeLeft().equals("0:0:0")) {
+            textBox.setText(timer.getTimeLeft());
         }
     }
 
