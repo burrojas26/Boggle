@@ -1,7 +1,16 @@
 import java.util.ArrayList;
 import doodlepad.*;
 
+/**
+ * @author Jasper Burroughs
+ * @since 4/12/24
+ * This class creates the graphics for the end screen
+ * it includes the owrds found and the score
+ */
 public class EndScreen {
+    /*
+     * Creates the graphics for end screen
+     */
     public EndScreen(ArrayList<String> words, int theScore) {
         Pad background = new Pad(750, 900);
         background.setBackground(0, 155, 200);
