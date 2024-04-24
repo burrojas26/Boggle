@@ -23,6 +23,11 @@ public class Board {
     RoundRect textBox;
     int wordsFound;
     int score;
+    Rectangle welcomeBack;
+    RoundRect playBtn;
+    Text title;
+    // Play is used to determine when the playBtn is pressed
+    boolean play = false;
     /*
      * Board constructor initializes all shape objects for the graphics
      */
@@ -59,6 +64,20 @@ public class Board {
         wordsFound = 0;
         score = 0;
         scoreBox.setText(Integer.toString(score));
+        // The objects below are for the welcome screen
+        welcomeBack = new Rectangle(0, 0, 750, 900);
+        welcomeBack.setFillColor(0, 0, 0, 200);
+        playBtn = new RoundRect(0, 0, 250, 125, 20, 20);
+        playBtn.setCenter(375, 500);
+        playBtn.setFillColor(0, 95, 140);
+        playBtn.setText("PLAY");
+        playBtn.setFontSize(60);
+        playBtn.setTextColor(0, 255, 0);
+        playBtn.setMouseClickedHandler(this::onPlay);
+        title = new Text("BOGGLE", 0, 0);
+        title.setFontSize(150);
+        title.setFillColor(0, 255, 0);
+        title.setCenter(375, playBtn.getY()/2);
     }
 
     /*
@@ -81,7 +100,6 @@ public class Board {
           }
         
         // Randomizing and displaying on board
-        System.out.println(dice.size());
         String currLetter;
         for (String[] die : dice) {
             int num = (int)(Math.random()*6); // 6 possible letters
@@ -151,6 +169,21 @@ public class Board {
         if (button != 1) {
             enterWord();
         }
+    }
+    /*
+     * Starts the game when the play btn is clicked
+     */
+    public void onPlay(Shape shp, double x, double y, int button) {
+        welcomeBack.setVisible(false);
+        playBtn.setVisible(false);
+        title.setVisible(false);
+        play = true;
+    }
+    /*
+     * returns play which represents when the player is playing
+     */
+    public boolean getPlay() {
+        return play;
     }
     /*
      * goes to end screen

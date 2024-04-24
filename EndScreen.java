@@ -18,13 +18,17 @@ public class EndScreen {
         wordList.setCenter(375, 450);
         wordList.setFontSize(30);
         wordList.setFillColor(155, 255, 255);
+        Text label = new Text("WORDS FOUND", 0, 0);
+        label.setFontSize(20);
+        label.setCenter(375, 0);
+        label.setY(40);
         ArrayList<Text> wordsT = new ArrayList<Text>();
         for (String word : words) {
             if (wordsT.size() < 1) {
                 Text currWord = new Text(word, 0, 0);
                 currWord.setFontSize(20);
                 currWord.setCenter(375, 0);
-                currWord.setY(40);
+                currWord.setY(80);
                 wordsT.add(currWord);
                 
             }
@@ -36,6 +40,9 @@ public class EndScreen {
                 wordsT.add(currWord);
             }  
         }
+        Text scoreLabel = new Text("SCORE: ", 0, 0);
+        scoreLabel.setFontSize(25);
+        scoreLabel.setCenter(257.5, 855);
         RoundRect score = new RoundRect(0, 0, 70, 40, 10, 10);
         score.setFontSize(25);
         score.setFillColor(0, 255, 0, 70);
