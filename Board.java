@@ -65,7 +65,9 @@ public class Board {
         score = 0;
         scoreBox.setText(Integer.toString(score));
         // The objects below are for the welcome screen
-        welcomeBack = new Rectangle(0, 0, 750, 900);
+        double welcomeX = background.getSize().getWidth();
+        double welcomeY = background.getSize().getHeight();
+        welcomeBack = new Rectangle(0, 0, welcomeX, welcomeY);
         welcomeBack.setFillColor(0, 0, 0, 200);
         playBtn = new RoundRect(0, 0, 250, 125, 20, 20);
         playBtn.setCenter(375, 500);
