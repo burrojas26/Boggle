@@ -28,6 +28,7 @@ public class Board {
     Text title;
     RoundRect rulesBtn;
     Image theRules;
+    Text rulesText;
     // Play is used to determine when the playBtn is pressed
     boolean play = false;
     /*
@@ -86,7 +87,7 @@ public class Board {
         rulesBtn.setCenter(375, 500);
         rulesBtn.setY(playBtn.getY()+playBtn.getHeight()+50);
         rulesBtn.setFillColor(80, 80, 80);
-        Text rulesText = new Text("RULES", 0, 0);
+        rulesText = new Text("RULES", 0, 0);
         rulesText.setFontSize(30);
         rulesText.setFillColor(240, 240, 240);
         rulesText.setCenter(rulesBtn.getCenter());
@@ -197,6 +198,7 @@ public class Board {
         playBtn.setVisible(false);
         title.setVisible(false);
         rulesBtn.setVisible(false);
+        rulesText.setVisible(false);
         play = true;
     }
     /*
