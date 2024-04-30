@@ -26,13 +26,15 @@ public class Board {
     Rectangle welcomeBack;
     RoundRect playBtn;
     Text title;
+    RoundRect rulesBtn;
+    Image theRules;
     // Play is used to determine when the playBtn is pressed
     boolean play = false;
     /*
      * Board constructor initializes all shape objects for the graphics
      */
     public Board() {
-        Pad background = new Pad(750, 900);
+        Pad background = new Pad("BOGGLE", 750, 900);
         background.setBackground(0, 155, 200);
         letterBoxes = new ArrayList<RoundRect>();
         tileSize = 700/size;
@@ -80,6 +82,21 @@ public class Board {
         title.setFontSize(150);
         title.setFillColor(0, 255, 0);
         title.setCenter(375, playBtn.getY()/2);
+        rulesBtn = new RoundRect(0, 0, 120, 60, 20, 20);
+        rulesBtn.setCenter(375, 500);
+        rulesBtn.setY(playBtn.getY()+playBtn.getHeight()+50);
+        rulesBtn.setFillColor(80, 80, 80);
+        Text rulesText = new Text("RULES", 0, 0);
+        rulesText.setFontSize(30);
+        rulesText.setFillColor(240, 240, 240);
+        rulesText.setCenter(rulesBtn.getCenter());
+        rulesBtn.setMouseClickedHandler(this::onRules);
+        rulesText.setMouseClickedHandler(this::onRules);
+        theRules = new Image("theRules.png", 0, 0, 700, 406);
+        theRules.setCenter(375, 450);
+        theRules.setX(theRules.getX()+30);
+        theRules.setVisible(false);
+
     }
 
     /*
@@ -179,6 +196,7 @@ public class Board {
         welcomeBack.setVisible(false);
         playBtn.setVisible(false);
         title.setVisible(false);
+        rulesBtn.setVisible(false);
         play = true;
     }
     /*
@@ -193,6 +211,12 @@ public class Board {
     public void onEnd(Shape shp, double x, double y, int click) {
         System.out.println(enteredWords);
         EndScreen e = new EndScreen(enteredWords, score);
+    }
+    /*
+     * Shows the rules page when the rules btn is clicked
+     */
+    public void onRules(Shape shp, double x, double y, int click) {
+        theRules.setVisible(!theRules.getVisible());
     }
     /*
      * distance finds the distance between two pts
