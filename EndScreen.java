@@ -12,7 +12,7 @@ public class EndScreen {
      * Creates the graphics for end screen
      */
     public EndScreen(ArrayList<String> words, int theScore) {
-        Pad background = new Pad(750, 900);
+        Pad background = new Pad("BOGGLE", 750, 900);
         background.setBackground(0, 155, 200);
         RoundRect wordList = new RoundRect(0, 0, 500, 850, 30, 30);
         wordList.setCenter(375, 450);
